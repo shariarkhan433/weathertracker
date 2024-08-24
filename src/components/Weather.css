@@ -33,6 +33,27 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:10px;
+    gap:12px;
+    font-size: 40px;
     color:rgb(197, 235, 29);
+}
+.weather-icon{
+    width:150px;
+    margin:20px;
+}
+.weather-data{
+    width:100%;
+    margin-top:40px;
+    color:#fff;
+    display:flex;
+    justify-content: space-between;
+}
+.col{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+}
+.col img{
+    width:50px;
 }
