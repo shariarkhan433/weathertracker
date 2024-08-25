@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './Weather.css'
 
 import search_icon from '../assets/search.png';
@@ -11,6 +11,7 @@ import snow_icon from '../assets/snow.png';
 import rain_icon from '../assets/rain.png';
 
 const Weather = () => {
+    const inputRef = useRef();
     const [WeatherData, setWeatherData]=useState(false)
     const allIcons={
         "o1d": clear_icon,
@@ -35,7 +36,11 @@ const Weather = () => {
 
     const search = async (city) => {
         try {
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.REACT_APP_API_KEY}`;
+            if(city === ""){
+                alert("Enter a City Name");
+                return;
+            }
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${'7cb26b9fb6064302746457d546414263'}`;
             
             const response = await fetch(url);
             const data = await response.json();
@@ -43,7 +48,7 @@ const Weather = () => {
             const icon = allIcons[data.weather[0].icon] || clear_icon;
             setWeatherData({
                 humidity: data.main.humidity,
-                windspeed: data.main.speed,
+                windspeed: data.wind.speed,
                 temparature: Math.floor(data.main.temp),
                 city: data.name,
                 country: data.sys.country,
@@ -62,10 +67,10 @@ const Weather = () => {
   return (
     <div className='weather'>
         <div className="search-bar">
-            <input type="text" placeholder='Search...'/>
-            <img src={search_icon} alt="" />
+            <input ref={inputRef} type="text" placeholder='Search...'/>
+            <img src={search_icon} alt="" onClick={() => search(inputRef.current.value)}/>
         </div>
-            <img src={clear_icon} alt="" className='weather-icon'/>
+            <img src={WeatherData.icon} alt="" className='weather-icon'/>
            <div className='weather-details'>
             
             <p>{WeatherData.temparature}°c</p>
